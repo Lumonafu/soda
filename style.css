@@ -1,0 +1,317 @@
+/* =========================================
+   1. CONFIGURACIÓN MAESTRA (CURSOR Y PANTALLA)
+   ========================================= */
+html {
+    /* "Caja Blindada": Fuerza el tamaño exacto de la pantalla */
+    height: 100vh !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important; /* Adiós scroll */
+    background-color: #100505 !important;
+    
+    /* CURSOR BASE PARA TODO (Incluso el vacío) */
+    cursor: url('cursor.png'), auto !important;
+}
+
+body {
+    margin: 0; padding: 0;
+    width: 100%; 
+    height: 100% !important; /* Hereda la altura del html */
+    position: relative;
+    
+    background-color: #100505;
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffb6c1; 
+    
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
+    
+    animation: textFlicker 4s infinite;
+    
+    /* El cuerpo hereda el cursor del html */
+    cursor: inherit !important;
+}
+
+/* RESET UNIVERSAL: Todo hereda el cursor por defecto */
+* {
+    cursor: inherit;
+    box-sizing: border-box; /* Buena práctica general */
+}
+
+/* Efecto de líneas de escaneo (Scanlines) */
+body::before {
+    content: " "; display: block; position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+    background-size: 100% 4px;
+    z-index: 2; pointer-events: none;
+    animation: scanlines 0.3s linear infinite; 
+}
+
+/* Efecto viñeta */
+body::after {
+    content: " "; display: block; position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: radial-gradient(circle, rgba(255, 0, 80, 0.05) 50%, rgba(0, 0, 0, 1) 120%);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+    z-index: 3; pointer-events: none;
+}
+
+/* =========================================
+   2. CURSORES INTERACTIVOS (La Magia)
+   ========================================= */
+
+/* Cuando pasas el mouse por encima (HOVER) */
+button:hover, .btn:hover, a:hover, 
+.heart:hover, .floating-item:hover, 
+.freddie:hover, .mechero:hover, .physics-item:hover {
+    cursor: url('cursorbld.png'), pointer !important;
+}
+
+/* Cuando haces click (ACTIVE) - Para todo el sitio */
+html:active, body:active, *:active {
+    cursor: url('cursorbld.png'), grabbing !important;
+}
+
+/* =========================================
+   3. CONTENEDOR PRINCIPAL
+   ========================================= */
+.container {
+    background-color: rgba(30, 5, 10, 0.85);
+    padding: 40px;
+    border: 2px solid #ff4d4d;
+    border-radius: 20px; 
+    box-shadow: 0 0 20px rgba(255, 0, 60, 0.5), inset 0 0 20px rgba(255, 0, 60, 0.2);
+    max-width: 700px; width: 90%; 
+    position: relative; z-index: 10;
+    backdrop-filter: blur(4px);
+    transform: perspective(500px) rotateX(2deg);
+    
+    margin-top: 50px; 
+    margin-bottom: 50px; 
+    
+    display: flex; flex-direction: column; align-items: center;
+}
+
+h1 {
+    color: #ff4d4d; font-size: 2.5rem; margin-bottom: 20px;
+    text-shadow: 2px 0px 0px rgba(0, 255, 255, 0.5), -2px 0px 0px rgba(255, 0, 0, 0.5), 0 0 15px #ff0055;
+    text-transform: uppercase; letter-spacing: 4px; white-space: nowrap; text-align: center;
+}
+
+/* =========================================
+   4. BOTONES
+   ========================================= */
+.botones-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    position: relative;
+    min-height: 80px;
+}
+
+#movable-wrapper {
+    position: relative;
+    display: inline-block;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+.btn {
+    background-color: rgba(20, 0, 0, 0.6);
+    color: #ff4d4d;
+    border: 2px solid #ff4d4d;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 0 10px #ff4d4d;
+    transition: 0.2s;
+    text-shadow: 0 0 5px #ff4d4d;
+    width: 140px; 
+    height: 60px;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.btn:hover {
+    background-color: #ff4d4d;
+    color: #000;
+    box-shadow: 0 0 25px #ff4d4d, inset 0 0 10px #000;
+}
+
+.btn.oculto { display: none; }
+
+.btn.btn-apagado {
+    border-color: #554444; color: #554444;
+    box-shadow: none; text-shadow: none;
+    cursor: not-allowed; background-color: rgba(0,0,0,0.3);
+}
+
+.btn.btn-final {
+    display: none;
+    border-color: #00ffaa; color: #00ffaa;
+    box-shadow: 0 0 10px #00ffaa; text-shadow: 0 0 5px #00ffaa;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: rgba(0, 20, 10, 0.8);
+}
+.btn.btn-final:hover {
+    background-color: #00ffaa; color: #000;
+}
+
+#btn-no {
+    width: 100%; height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.05s; 
+}
+
+/* =========================================
+   5. ELEMENTOS DE TEXTO
+   ========================================= */
+.separador { width: 100%; border: 0; height: 1px; background: radial-gradient(circle, rgba(255,77,77,0.5) 0%, rgba(0,0,0,0) 100%); margin: 30px 0; }
+.pregunta-texto { color: #ff4d4d; text-transform: uppercase; margin-bottom: 20px; text-shadow: 0 0 10px #ff0000; text-align: center; }
+
+.hidden-content {
+    max-height: 0; opacity: 0; overflow: hidden;
+    transition: max-height 1.5s ease-in-out, opacity 1s ease-in-out;
+    width: 100%; text-align: center; padding-right: 5px;
+}
+.hidden-content.mostrar { max-height: 500px; opacity: 1; margin-top: 20px; overflow-y: auto; }
+
+/* Scrollbar */
+.hidden-content::-webkit-scrollbar { width: 10px; }
+.hidden-content::-webkit-scrollbar-track { background: rgba(40, 0, 10, 0.5); border-radius: 5px; }
+.hidden-content::-webkit-scrollbar-thumb { background: #ff4d4d; border-radius: 5px; border: 1px solid #ff99aa; box-shadow: 0 0 5px #ff4d4d; }
+
+.final-text { margin-top: 20px; color: #ffb6c1; animation: glow 2s infinite alternate; }
+p { color: #ffccd5; font-size: 1.1rem; line-height: 1.6; text-shadow: 1px 1px 3px #000; text-align: center; margin: 0 auto; }
+
+/* =========================================
+   6. DECORACIONES (Items flotantes, Freddy, etc)
+   ========================================= */
+
+/* Corazones */
+.heart {
+    position: absolute; background-image: url('https://www.nicepng.com/png/full/190-1905759_minecraft-heart-8-bit-heart-transparent.png');
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+    opacity: 0.9; z-index: 5; image-rendering: pixelated; 
+    animation: float 6s infinite linear; filter: drop-shadow(0 0 5px #ff0000); --rotacion: 0deg;
+}
+
+/* Items Flotantes */
+.floating-item {
+    position: absolute;
+    animation: float 6s infinite linear; 
+    filter: drop-shadow(0 0 8px #ff1493) drop-shadow(0 0 15px #ff1493); 
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+    z-index: 1000;
+    --rotacion: 0deg; 
+}
+
+/* Partículas */
+.particle {
+    position: fixed; width: 10px; height: 10px;
+    background-color: #8b0000; 
+    pointer-events: none; z-index: 2000;
+    animation: explode 0.8s ease-out forwards;
+    box-shadow: inset 2px 2px 0 rgba(255,255,255,0.2), inset -2px -2px 0 rgba(0,0,0,0.4);
+    image-rendering: pixelated;
+}
+
+/* Freddy & Mechero */
+.freddie { position: fixed; width: 80px; height: auto; z-index: 9999; user-select: none; touch-action: none; }
+.mechero { position: fixed; width: 60px; height: auto; z-index: 9999; user-select: none; touch-action: none; filter: drop-shadow(0 0 5px rgba(255, 100, 0, 0.5)); }
+
+/* Fuego Overlay */
+.fire-overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; image-rendering: pixelated; opacity: 0.8; }
+
+/* Physics Items */
+.physics-item { position: fixed; z-index: 9999; user-select: none; touch-action: none; }
+.physics-item img.sprite { width: 100%; height: auto; display: block; }
+
+/* Imagen Lateral */
+.imagen-lateral {
+    position: fixed; left: 2%; top: 50%;
+    transform: translateY(-50%) scale(0); 
+    width: 250px; height: auto;
+    z-index: -1; opacity: 0.9; pointer-events: none; 
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+}
+.imagen-lateral.visible { transform: translateY(-50%) scale(1); }
+
+/* Portales */
+.portal {
+    position: fixed; width: 60px; height: 120px;
+    border-radius: 50%; border: 5px solid white;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    z-index: 50; transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.portal.visible { transform: scale(1); animation: portalPulse 2s infinite; }
+.portal-orange { border-color: #ff9900; box-shadow: 0 0 30px #ff9900, inset 0 0 20px #ff9900; }
+.portal-blue { border-color: #00aaff; box-shadow: 0 0 30px #00aaff, inset 0 0 20px #00aaff; }
+
+/* Cuenta Regresiva */
+#countdown-container {
+    margin-top: 30px; text-align: center;
+    animation: popIn 1s ease-out;
+    border-top: 1px dashed rgba(255, 77, 77, 0.3); padding-top: 20px;
+}
+.texto-espera { font-size: 1rem; color: #ffccd5; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
+#reloj { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
+.bloque-tiempo {
+    display: flex; flex-direction: column; align-items: center;
+    background: rgba(40, 0, 10, 0.6); padding: 10px;
+    border: 1px solid #ff4d4d; border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); min-width: 60px;
+}
+.bloque-tiempo span:first-child { font-size: 1.8rem; font-weight: bold; color: #fff; text-shadow: 0 0 10px #ff0055; }
+.etiqueta { font-size: 0.7rem; color: #ff99aa; margin-top: 5px; text-transform: uppercase; }
+.texto-fecha { font-size: 0.9rem; color: #ff4d4d; opacity: 0.8; }
+@media (max-width: 400px) {
+    #reloj { gap: 8px; }
+    .bloque-tiempo { min-width: 45px; padding: 5px; }
+    .bloque-tiempo span:first-child { font-size: 1.4rem; }
+}
+
+/* =========================================
+   7. ANIMACIONES
+   ========================================= */
+@keyframes glow { from { text-shadow: 0 0 5px #ff4d4d; } to { text-shadow: 0 0 20px #ff0055; } }
+@keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+@keyframes scanlines { 0% { background-position: 0 0; } 100% { background-position: 0 8px; } }
+@keyframes textFlicker { 0% { opacity: 0.97; } 50% { opacity: 0.95; } 100% { opacity: 0.97; } }
+@keyframes portalPulse {
+    0% { box-shadow: 0 0 20px currentColor, inset 0 0 10px currentColor; }
+    50% { box-shadow: 0 0 40px currentColor, inset 0 0 20px currentColor; }
+    100% { box-shadow: 0 0 20px currentColor, inset 0 0 10px currentColor; }
+}
+@keyframes float {
+    0% { transform: translateY(110vh) scale(0.5) rotate(var(--rotacion)); opacity: 0; }
+    10% { opacity: 1; } 90% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.5) rotate(var(--rotacion)); opacity: 0; }
+}
+@keyframes explode {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot)); }
+}
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
