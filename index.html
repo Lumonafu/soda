@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Soda ❤️</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="hearts-container"></div>
+
+    <div class="container">
+        <h1>Feliz San Valentín <3</h1>
+        <p>Quiero decirte algo especial . . .</p>
+        
+        <button class="btn" onclick="mostrarCarta()">Abrir Carta</button>
+
+        <div id="carta" class="hidden-content">
+            <p>
+                Hola mi amor,<br><br>
+                Quería hacer algo que puedas recordar con felicidad este año. Algo que dure para siempre, como lo que siento por vos <3.
+                Me encanta quién sos. Tu forma de ser, tu risita, tus reacciones, tu humor, sos muy graciosa mi vida. No solo sos linda internamente, también me gusta como te ves, tu forma, como te moves al caminar, y pls te veias tan bonita cuando estabas agarrada a mi. Se nota a simple vista, tu rostro es hermoso, me encanta admirarlo, es tan cautivante, no dudaria en llenarte de besos<3. Amo tu sonrisa preciosa, soy muy afortunado de tenerte.<br><br>
+                También me gusta cuando compartimos cosas juntos, cuando me ves jugar, cuando jugamos, y cuando nos quedamos viendo alguna serie y peli, y nos reímos juntos. Esos momentitos son muy importantes para mi. Se siente bien estar con vos querida, Te amo muchísimo.
+                DIOSSS TE AMO MI CHICA HERMOSA, GRACIAS POR EXISTIR, TE AMOOOOOOOOO <3
+            </p>
+
+            <hr class="separador">
+
+            <div id="propuesta-container">
+                <h2 class="pregunta-texto">¿Te gustaría ser mi San Valentín?</h2>
+                
+                <div class="botones-container">
+                    <button id="btn-si-fake" class="btn btn-apagado">SÍ</button>
+                    
+                    <div id="movable-wrapper">
+                        <button id="btn-no" class="btn" onclick="interactuarBoton()">NO</button>
+                        
+                        <button id="btn-si-real" class="btn btn-final" onclick="aceptarPropuesta()">SÍ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mensaje-final" style="display: none;">
+                <h2 class="final-text">Te amo muchísimo, gracias por ser mi San Valentín Sodita <3</h2>
+                <div class="heart-pixel-icon"></div>
+
+                <div id="countdown-container">
+                    <p class="texto-espera">Nuestra cita es en:</p>
+                    <div id="reloj">
+                        <div class="bloque-tiempo">
+                            <span id="dias">00</span>
+                            <span class="etiqueta">Días</span>
+                        </div>
+                        <div class="bloque-tiempo">
+                            <span id="horas">00</span>
+                            <span class="etiqueta">Horas</span>
+                        </div>
+                        <div class="bloque-tiempo">
+                            <span id="minutos">00</span>
+                            <span class="etiqueta">Minutos</span>
+                        </div>
+                        <div class="bloque-tiempo">
+                            <span id="segundos">00</span>
+                            <span class="etiqueta">Segundos</span>
+                        </div>
+                    </div>
+                    <p class="texto-fecha">14 de Febrero - 17:00 HS</p>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
